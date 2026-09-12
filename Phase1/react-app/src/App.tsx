@@ -1,4 +1,5 @@
 import Card from "./components/Card"
+import From from "./components/Form";
 
 function App() {
   
@@ -36,6 +37,7 @@ function App() {
           <Card key={user.id} {...user}></Card>
         ))
       }
+      <From/>
     </>
   )
 }
