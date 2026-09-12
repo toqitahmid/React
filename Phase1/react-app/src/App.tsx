@@ -2,12 +2,40 @@ import Card from "./components/Card"
 
 function App() {
   
-  const name: string = 'Araf';
-  const id: number = 22;
+  type UserInfo = {
+    id: number;
+    name: string;
+    age: number;
+  }
+
+  const users: UserInfo[] = [
+    {
+      id: 110,
+      name: 'Araf',
+      age: 20,
+    },
+    {
+      id: 220,
+      name: 'Toqi',
+      age: 20,
+    },
+    {
+      id: 330,
+      name: 'Tahmid',
+      age: 18,
+    }
+  ]
+
+
   return (
 
     <>
-      <Card name = {name} id = {id}></Card>
+      {
+        users.map((user: UserInfo) => (
+          
+          <Card key={user.id} {...user}></Card>
+        ))
+      }
     </>
   )
 }
