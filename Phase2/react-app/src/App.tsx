@@ -1,11 +1,13 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import './App.css'
 import Card from './components/Card';
+import Form from './components/Form';
+import CounterProvider from './providers/counter.provider';
+import Counter from './components/Counter';
 
 function App() {
 
-  const [name, setName] = useState('');
-  const [id, setId] = useState(0);
+  const [count, setCount] = useState(0)
   const [allUsers, setAllUsers] = useState<User[]>([{
     id: 110,
     name: 'Araf',
@@ -21,21 +23,16 @@ function App() {
     name: string;
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 
-    e.preventDefault();
-    const newUser: User = {
-      id: id,
-      name: name
-    }
-    setAllUsers([...allUsers, newUser])
-    console.log(allUsers);
-
-  }
   return (
 
-    <>
-      <div>
+    <CounterProvider>
+
+      <div className=' flex justify-center items-center border-2 m-5 p-5 bg-amber-100 rounded-2xl text-4xl'>
+        <p>{count}</p>
+      </div>
+
+      <div className='bg-amber-50 border-2 rounded-2xl m-5 grid grid-cols-2'>
         {
           allUsers.map((user: User) => (
             <Card key={user.id} {...user}></Card>
@@ -43,16 +40,12 @@ function App() {
         }
       </div>
 
+      <Form users={allUsers} setAllUsers={setAllUsers}></Form>
 
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input type='text' onChange={(e) => setId(Number(e.target.value))} />
-          <input type="text" onChange={(e) => setName(e.target.value)} />
-          <button type='submit'>Submit</button>
-        </form>
-      </div>
 
-    </>
+      <Counter count={count} setCount={ setCount} />
+
+    </CounterProvider>
   )
 }
 
