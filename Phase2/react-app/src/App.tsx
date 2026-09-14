@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 import Card from './components/Card';
 import Form from './components/Form';
@@ -8,6 +8,7 @@ import Counter from './components/Counter';
 function App() {
 
   const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
   const [allUsers, setAllUsers] = useState<User[]>([{
     id: 110,
     name: 'Araf',
@@ -22,7 +23,33 @@ function App() {
     id: number;
     name: string;
   }
+  
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const res = await fetch('https://jsonplaceholder.typicode.com/posts');
 
+        if (!res.ok) {
+          console.error('Fatch failed!');
+          return;
+        }
+        console.log(res.json());
+        return res.json();
+      }
+      catch (err) {
+        console.error(err);
+        
+      }
+      finally {
+        setIsLoading(false);
+      }
+    }
+    loadData();
+  }, [])
+  
+  if (isLoading) {
+    return (<div className='text-2xl h-screen flex justify-center items-center'>Loading.....</div>)
+  }
 
   return (
 
